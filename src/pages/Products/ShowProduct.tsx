@@ -1,5 +1,6 @@
-import { useGo, useOne, useShow } from "@refinedev/core"
+import { HttpError, useGo, useOne, useShow } from "@refinedev/core"
 import { Show } from "@refinedev/mui"
+import { IProduct } from "src/types"
 
 const ShowProduct: React.FC = () => {
 
@@ -9,32 +10,24 @@ const ShowProduct: React.FC = () => {
 
   const record = data?.data
 
-  const { data: product, isLoading: productIsLoading } = useOne({
+  const { data: product, isLoading: productIsLoading, isError } = useOne<IProduct, HttpError>({
     resource: "products", id: record?.products?.id || "", queryOptions: {
       enabled: !!record
     },
   })
 
-  // if (isLoading) {
-  //   return <div>Loading...</div>
-  // }
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
-  const go = useGo()
+  if (isError) {
+    return <div>Something went wrong!</div>;
+  }
 
-  return (<Show isLoading={isLoading}>
+
+
+  return (<Show isLoading={productIsLoading}>
     <div className="flex items-center gap-2 m-2 p-2">
-      {/* <button
-        onClick={() => {
-          go({
-            to: {
-              resource: "products", action: "list"
-            }
-          })
-        }}
-        className="inline-block rounded ms-2 bg-button-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
-        {"<"} Back
-      </button> */}
-
     </div>
     <div className="flex justify-center items-center mt-2 gap-2 p-2 rounded-lg bg-base-primary shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-base-secondary">
 

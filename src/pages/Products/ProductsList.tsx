@@ -1,25 +1,14 @@
-import { Button } from "@mui/material"
+import { Button, List } from "@mui/material"
 import { useGo, useList } from "@refinedev/core"
 import { Show } from "@refinedev/mui"
 import { useModalForm } from "@refinedev/react-hook-form"
 import { Link } from "react-router-dom"
+import Modal from "src/components/Modal"
+import { IProduct } from "src/types"
 
 const ProductsList = () => {
 
 
-
-    interface IProducts {
-        id: number,
-        title: string,
-        price: number,
-        description: string,
-        category: string,
-        image: string,
-        rating: {
-            rate: number,
-            count: number
-        }
-    }
     const { data: products } = useList({
         resource: "products"
     })
@@ -35,8 +24,15 @@ const ProductsList = () => {
 
     const go = useGo()
     return (
-        <>
+        <List>
             <h1 className=" flex justify-center m-2 text-2xl font-bold shadow-md p-2">Products List</h1>
+            <Link to={"/"}>
+                <button
+
+                    className="inline-block rounded ms-2 bg-button-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
+                    {"<"} Back
+                </button>
+            </Link>
             <div className="flex justify-end m-2 me-4">
                 <button className="bg-blue-600 rounded-md px-4 py-2 text-white p-2 hover:bg-blue-400"
                     onClick={() => {
@@ -52,7 +48,7 @@ const ProductsList = () => {
                 >Create</button>
             </div>
 
-            {products?.map(({ id, title, price, description, category, image, rating }: IProducts) => (
+            {products?.map(({ id, title, price, description, category, image, rating }: IProduct) => (
                 <div
                     key={id}
                     className="flex justify-center items-center mt-2 gap-2 rounded-lg bg-base-primary shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-base-secondary"
@@ -96,7 +92,7 @@ const ProductsList = () => {
                     </div>
                 </div>
             ))}
-        </>
+        </List>
     )
 }
 

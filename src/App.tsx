@@ -26,6 +26,7 @@ function App() {
       <DevtoolsProvider>
         <Refine dataProvider={dataProvider(API_URL)}
           routerProvider={routerProvider}
+
           resources={[
 
             {

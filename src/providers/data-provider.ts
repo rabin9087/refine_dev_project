@@ -20,43 +20,37 @@ axiosInstance.interceptors.response.use(
   }
 )
 
-export const dataProvider= (url: string): DataProvider => ({
-    getOne: async({resource, id, meta}) => {
-            const response = await fetch(`${url}/${resource}/${id}`);
-            if(response.status < 200 || response.status > 299) throw response
+export const dataProvider= (apiUrl: string): DataProvider => ({
+    getOne: async({resource, id}) => {
+    const  data  = await axiosInstance.get(`${apiUrl}/${resource}/${id}`);
 
-        const data = await response.json()
-         return {data}
+         return data
  
       },
       update: async({resource, id, variables}) => {
-        const response = await fetch(`${url}/${resource}/${id}`, {
-            method: "patch",
-            body: JSON.stringify(variables),
-            headers: {
-                "Content-type": "application/json"
-            },
+        const {data} = await axiosInstance.patch(`${apiUrl}/${resource}/${id}`, variables, {
+          headers: {"Content-Type": "application/json"}
         });
 
-        if(response.status < 200 || response.status > 299) throw response
-
-        const data = await response.json()
-        return {data}
+        return data
 
       },
-      getList: async({resource}) => {
-        const response = await fetch(`${url}/${resource}`)
-        const data = await response.json()
-console.log(data)
+  getList: async ({ resource, pagination, filters, sorters, meta }) => {
+        const {current = 1, pageSize= 5, mode = "server"} = pagination ?? {}
+        const {data} = await axiosInstance.get(`${apiUrl}/${resource}`)
         return data
       },
       create: async({resource, variables, meta}) => {
-        return 
+        const headers = meta?.headers ?? {};
+        const url = `${apiUrl}/${resource}`
+        const {data} = await axiosInstance.post(url, variables, {headers})
+        return {data}
       },
-      deleteOne: () => {
-        throw new Error("Not implemented");
+      deleteOne: async({resource, id, }) => {
+        const { data } = await axiosInstance.delete(`${resource}/${id}`)
+        return data
       },
-      getApiUrl: () => url,
+      getApiUrl: () => apiUrl,
       // Optional methods:
       // getMany: () => { /* ... */ },
       // createMany: () => { /* ... */ },
