@@ -9,7 +9,7 @@ export interface IProduct {
         description: string,
         image: File | null,
         category: string,
-        rating: {
+        rating?: {
             rate: number | null,
             count: number | null,
         } | undefined,
