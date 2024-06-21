@@ -23,57 +23,55 @@ const API_URL = "https://fakestoreapi.com"
 function App() {
   return (
     <BrowserRouter>
-      <DevtoolsProvider>
-        <Refine dataProvider={dataProvider(API_URL)}
-          routerProvider={routerProvider}
+      <Refine dataProvider={dataProvider(API_URL)}
+        routerProvider={routerProvider}
 
-          resources={[
+        resources={[
 
-            {
-              name: "products",
-              list: "/products",
-              create: "/products/create",
-              edit: "/products/edit/:id",
-              show: "/products/:id",
-              meta: {
-                canDelete: true
-              },
+          {
+            name: "products",
+            list: "/products",
+            create: "/products/create",
+            edit: "/products/edit/:id",
+            show: "/products/:id",
+            meta: {
+              canDelete: true
             },
-            {
-              name: "categories",
-              list: "/categories",
-              create: "/categories",
-              edit: "/categories/:id",
-              show: "/categories/:id",
-              meta: {
-                canDelete: true
-              },
+          },
+          {
+            name: "categories",
+            list: "/categories",
+            create: "/categories",
+            edit: "/categories/:id",
+            show: "/categories/:id",
+            meta: {
+              canDelete: true
             },
-            {
-              name: "users",
-              list: "/users",
-              create: "/users",
-              edit: "/users/:id",
-              show: "/users/:id",
-              meta: {
-                canDelete: true
-              },
+          },
+          {
+            name: "users",
+            list: "/users",
+            create: "/users",
+            edit: "/users/:id",
+            show: "/users/:id",
+            meta: {
+              canDelete: true
             },
-          ]}
-        >
+          },
+        ]}
+      >
 
-          <Routes>
-            <Route path="/" element={<HomePage />}></Route>
-            <Route path="/products" element={<ProductsList />}></Route>
-            <Route path="/products/:id" element={<ShowProduct />}></Route>
-            <Route path="/products/edit/:id" element={<EditProduct />}></Route>
-            <Route path="/products/create" element={<CreateProduct />}></Route>
-            <Route path="*" element={<ErrorComponent />}></Route>
-          </Routes>
+        <Routes>
+          <Route path="/" element={<HomePage />}></Route>
+          <Route path="/products" element={<ProductsList />}></Route>
+          <Route path="/products/:id" element={<ShowProduct />}></Route>
+          <Route path="/products/edit/:id" element={<EditProduct />}></Route>
+          <Route path="/products/create" element={<CreateProduct />}></Route>
+          <Route path="*" element={<ErrorComponent />}></Route>
+        </Routes>
 
-        </Refine>
-        <DevtoolsPanel />
-      </DevtoolsProvider>
+      </Refine>
+
     </BrowserRouter>
   );
 }

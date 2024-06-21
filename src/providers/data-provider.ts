@@ -28,7 +28,7 @@ export const dataProvider= (apiUrl: string): DataProvider => ({
  
       },
       update: async({resource, id, variables}) => {
-        const {data} = await axiosInstance.patch(`${apiUrl}/${resource}/${id}`, variables, {
+        const data = await axiosInstance.patch(`${apiUrl}/${resource}/${id}`, variables, {
           headers: {"Content-Type": "application/json"}
         });
 

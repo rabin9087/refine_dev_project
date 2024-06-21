@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import { useNavigate } from "react-router-dom";
-
 import PropTypes from "prop-types";
-import { useCreate, useList, useOne, useSelect, useUpdate } from '@refinedev/core';
+import { useCreate, useList } from '@refinedev/core';
 import { useForm } from '@refinedev/react-hook-form';
-import { Create, useAutocomplete } from '@refinedev/mui';
-import { Autocomplete, Box, MenuItem, Select, TextField } from '@mui/material';
-import { Controller, SubmitHandler } from 'react-hook-form';
+import { Create } from '@refinedev/mui';
+import { Box, MenuItem, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -58,23 +56,14 @@ const CreateProduct = () => {
         const reader = new FileReader();
         return reader.readAsDataURL(image);
     };
-    console.log(images)
 
     const onSubmit = handleSubmit((data) => {
-
-        console.log(data)
-
         if (data?.image.length > 0) {
             {
                 convert2base64(data.image[0]);
             }
         }
-        console.log(data)
         const formData = new FormData()
-
-        // for (let key in formData) {
-        //     formData.append([key, formData[key]])
-        // }
         formData.append("title", data?.title)
         formData.append("price", data?.price)
         formData.append("category", data?.category)
@@ -110,7 +99,7 @@ const CreateProduct = () => {
 
 
     return (
-        <Create saveButtonProps={saveButtonProps} isLoading={formLoading || isCreating}>
+        <Create isLoading={true}>
             <Box
                 component="form"
                 sx={{ display: "flex", flexDirection: "column" }}
@@ -128,7 +117,7 @@ const CreateProduct = () => {
                     name='title'
                 />
                 <TextField
-                    type='number'
+                    type='text'
                     id='price'
                     {...register("price", {
                         required: "Price is required",
@@ -165,7 +154,9 @@ const CreateProduct = () => {
                     name='description'
                 />
 
-                {images && <img src={images} width={"200px"} height={"200px"} alt='Image' />}
+                {images && <img
+                    className='shadow-md rounded-md m-2 p-2'
+                    src={images} width={"200px"} height={"200px"} alt='Image' />}
 
                 <TextField
                     type='file'
@@ -174,7 +165,7 @@ const CreateProduct = () => {
                     })}
                     error={!!errors.image}
                     helperText={errors.image ? 'Image is required' : ""}
-                    onChange={(e) => {
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
                         handelOnImageChange(e);
                         register("image").onChange(e); // Ensure react-hook-form gets the file
                     }}
