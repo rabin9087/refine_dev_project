@@ -1,4 +1,4 @@
-import { CircularProgress, Skeleton, Stack, TextField, Typography } from '@mui/material';
+import { Box, CircularProgress, Skeleton, Stack, TextField, Typography } from '@mui/material';
 import { HttpError, useOne, useShow } from '@refinedev/core'
 import { DateField, MarkdownField, NumberField, Show } from '@refinedev/mui';
 import React from 'react'
@@ -11,10 +11,11 @@ const ShowUser = () => {
     const record = data?.data;
 
     const { data: users, isLoading: usersIsLoading, isError } = useOne<IUser, HttpError>({
-        resource: "users", id: record?.products?.id || "", queryOptions: {
+        resource: "users", id: record?.users?.id || "", queryOptions: {
             enabled: !!record
         },
     })
+
     return (
         <Show isLoading={isLoading}>
             {isLoading ? <Stack spacing={1}>
@@ -25,28 +26,29 @@ const ShowUser = () => {
                 <Skeleton variant="circular" width={40} height={40} />
                 <Skeleton variant="rectangular" width={210} height={60} />
                 <Skeleton variant="rounded" width={210} height={60} />
-            </Stack> : <Stack gap={1}>
-                <Typography variant="body1" fontWeight="bold">
-                    Id
-                </Typography>
-                <NumberField value={record?.id ?? ""} />
-                <Typography variant="body1" fontWeight="bold">
-                    Title
-                </Typography>
-                <TextField value={record?.title} />
-                <Typography variant="body1" fontWeight="bold">
-                    Content
-                </Typography>
-                <MarkdownField value={record?.content} />
-                <Typography variant="body1" fontWeight="bold">
-                    Category
-                </Typography>
-                {usersIsLoading ? <>Loading...</> : <>{users?.data?.email}</>}
-                <Typography variant="body1" fontWeight="bold">
-                    Created At
-                </Typography>
-                <DateField value={record?.createdAt} />
-            </Stack>}
+            </Stack> :
+                <Box>
+                    <Typography variant="h6">Users Details</Typography>
+                    <Typography variant="body1">
+                        <strong>Name:</strong> {record?.name?.firstname} {record?.name?.lastname}
+                    </Typography>
+                    <Typography variant="body1">
+                        <strong>Username:</strong> {record?.username}
+                    </Typography>
+                    <Typography variant="body1">
+                        <strong>Email:</strong> {record?.email}
+                    </Typography>
+                    <Typography variant="body1">
+                        <strong>Phone:</strong> {record?.phone}
+                    </Typography>
+                    <Typography variant="body1">
+                        <strong>Address:</strong> {record?.address?.number} {record?.address?.street}, {record?.address?.city}, {record?.address?.zipcode}
+                    </Typography>
+                    <Typography variant="body1">
+                        <strong>Geolocation:</strong> Lat: {record?.address?.geolocation.lat}, Long: {record?.address?.geolocation.long}
+                    </Typography>
+                </Box>
+            }
 
         </Show>
     )
