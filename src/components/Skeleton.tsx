@@ -1,7 +1,7 @@
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 
-export const ProductSkeleton = () => {
+const ProductSkeleton = () => {
     return (
         <Stack spacing={1}>
             {/* For variant="text", adjust the height via font-size */}
@@ -14,3 +14,5 @@ export const ProductSkeleton = () => {
         </Stack>
     );
 }
+
+export default ProductSkeleton

@@ -20,7 +20,8 @@ axiosInstance.interceptors.response.use(
   }
 )
 
-export const dataProvider= (apiUrl: string): DataProvider => ({
+export const dataProvider = (apiUrl: string): DataProvider => ({
+  
     getOne: async({resource, id}) => {
     const  data  = await axiosInstance.get(`${apiUrl}/${resource}/${id}`);
 
@@ -34,22 +35,26 @@ export const dataProvider= (apiUrl: string): DataProvider => ({
 
         return data
 
+  },
+      
+    getList: async ({ resource, pagination, filters, sorters, meta }) => {
+            const {current = 1, pageSize= 5, mode = "server"} = pagination ?? {}
+            const {data} = await axiosInstance.get(`${apiUrl}/${resource}`)
+            return data
       },
-  getList: async ({ resource, pagination, filters, sorters, meta }) => {
-        const {current = 1, pageSize= 5, mode = "server"} = pagination ?? {}
-        const {data} = await axiosInstance.get(`${apiUrl}/${resource}`)
-        return data
-      },
+  
       create: async({resource, variables, meta}) => {
         const headers = meta?.headers ?? {};
         const url = `${apiUrl}/${resource}`
         const {data} = await axiosInstance.post(url, variables, {headers})
         return {data}
       },
+      
       deleteOne: async({resource, id, }) => {
-        const { data } = await axiosInstance.delete(`${resource}/${id}`)
+        const { data } = await axiosInstance.delete(`${apiUrl}/${resource}/${id}`)
         return data
       },
+      
       getApiUrl: () => apiUrl,
       // Optional methods:
       // getMany: () => { /* ... */ },

@@ -17,6 +17,12 @@ import {
 } from "@refinedev/mui";
 import EditProduct from "./pages/Products/EditProduct";
 import CreateProduct from "./pages/Products/CreateProduct";
+import UserList from "./pages/Users/UserList";
+import CategoryList from "./pages/Categories/CategoryList";
+import CreateCategory from "./pages/Categories/Createcategory";
+import CreateUser from "./pages/Users/CreateUser";
+import EditUser from "./pages/Users/EditUser";
+import ShowUser from "./pages/Users/ShowUser";
 
 
 const API_URL = "https://fakestoreapi.com"
@@ -41,8 +47,8 @@ function App() {
           {
             name: "categories",
             list: "/categories",
-            create: "/categories",
-            edit: "/categories/:id",
+            create: "/categories/create",
+            edit: "/categories/edit/:id",
             show: "/categories/:id",
             meta: {
               canDelete: true
@@ -51,8 +57,8 @@ function App() {
           {
             name: "users",
             list: "/users",
-            create: "/users",
-            edit: "/users/:id",
+            create: "/users/create",
+            edit: "/users/edit/:id",
             show: "/users/:id",
             meta: {
               canDelete: true
@@ -67,6 +73,14 @@ function App() {
           <Route path="/products/:id" element={<ShowProduct />}></Route>
           <Route path="/products/edit/:id" element={<EditProduct />}></Route>
           <Route path="/products/create" element={<CreateProduct />}></Route>
+
+          <Route path="/users" element={<UserList />}></Route>
+          <Route path="/users/create" element={<CreateUser />}></Route>
+          <Route path="/users/:id" element={<ShowUser />}></Route>
+          <Route path="/users/edit/:id" element={<EditUser />}></Route>
+
+
+          <Route path="/categories" element={<CategoryList />}></Route>
           <Route path="*" element={<ErrorComponent />}></Route>
         </Routes>
 
